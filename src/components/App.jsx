@@ -5,7 +5,7 @@ import useStyles from './styles';
 import {Actors, MovieInfo, Movie, NavigationBar, Profile} from './';
 const App = () => {
   const classes = useStyles();
-
+//Pulling the code from github on a laptop for testing.
   return (
     <div className= {classes.root}>
       <CssBaseline />
