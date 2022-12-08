@@ -5,13 +5,14 @@ import useStyles from './styles';
 import {Actors, MovieInfo, Movie, NavigationBar, Profile} from './';
 const App = () => {
   const classes = useStyles();
-//Pulling the code from github on a laptop for testing.
+
   return (
     <div className= {classes.root}>
       <CssBaseline />
       <NavigationBar/>
       <main className = {classes.content}>
       <div className={classes.toolbar}/>
+        {/* switch for the different routes to show to user as only one route can be shown at a time */}
         <Switch>
           <Route exact path= "/movie/:id">
             <MovieInfo/>
