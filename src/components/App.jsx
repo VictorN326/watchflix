@@ -2,7 +2,7 @@ import React from "react";
 import { CssBaseline } from "@mui/material";
 import { Route, Switch } from "react-router-dom";
 import useStyles from './styles';
-import {Actors, MovieInfo, Movie, NavigationBar, Profile} from './';
+import {Actors, MovieInfo, Movies, NavigationBar, Profile} from './';
 const App = () => {
   const classes = useStyles();
 
@@ -23,7 +23,7 @@ const App = () => {
           </Route>
 
           <Route exact path="/">
-            <Movie />
+            <Movies />
           </Route>
 
           <Route exact path = "/profile/:id">
