@@ -23,12 +23,14 @@ const categories = [
 const redLogo = 'https://fontmeme.com/permalink/221208/671667e1e2ac057db669c22af7815536.png';
 const blueLogo = 'https://fontmeme.com/permalink/221208/f06625b2a49486ec4d691980011f62c5.png';
 const Sidebar = ({setMobileOpen}) => {
+  const {genreIdOrCategoryName} = useSelector((state)=> state.currentGenreOrCategory);
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
   const {data, isFetching} = useGetGenresQuery();
 
-  console.log('Genre',data);
+  // console.log('Genre',data);
+  console.log(genreIdOrCategoryName);
   return (
     <>
         <Link to="/" className={classes.imageLink}>
