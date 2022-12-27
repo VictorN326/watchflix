@@ -121,15 +121,21 @@ const MovieInfo = () => {
         <Box>Sorry, we couldn't find anything to recommend at the moment... </Box>
         }
       </Box>
+      {console.log('data', data)}
       {console.log('trailer info', data?.videos?.results)}
       {/* {console.log('data.videos info', data?.videos)}
       {console.log('key', data.videos.results[0].key)} */}
-
+      
+      {/* Must use empty react fragments inside and outside Modal because it can only pass a single React Element when Modal below seems to be passing two */}
+      <>
       <Modal closeAfterTransition className={classes.modal} open={open} onClose={()=> setOpen(false)}>
-        {data?.videos?.results?.length > 0 && (
-          <iframe autoPlay className={classes.video} frameBorder="0" title="Trailer" src={`https://www.youtube.com/embed/${data.videos.results[data.videos.results.length-1].key}`} allow="autoplay"/>
-        )}
-      </Modal>
+          <>
+            {data?.videos?.results?.length > 0 && (
+              <iframe autoPlay className={classes.video} frameBorder="0" title="Trailer" src={`https://www.youtube.com/embed/${data.videos.results[0].key}`} allow="autoplay"/>
+          )}
+          </>
+        </Modal>
+      </>
     </Grid>
   );
 };
