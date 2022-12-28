@@ -11,20 +11,25 @@ export default makeStyles((theme)=> ({
         },
     },
     poster: {
+        width: '80%',
         borderRadius: '20px',
         boxShadow: '0.5em 1em 1em rgb(64, 64, 70)',
-        width: '80%',
+        [theme.breakpoints.down('lg')]: {
+            display: 'flex',
+        },
         [theme.breakpoints.down('md')]: {
             margin: '0 auto',
             width: '50%',
-            height: '350px',
+            // height: '350px',
         },
         [theme.breakpoints.down('sm')]: {
+            display: 'flex',
             margin: '0 auto',
             width: '100%',
             height: '350px',
             marginBottom: '30px',
         },
+
     },
     genresContainer: {
         margin: '10px 0 !important',

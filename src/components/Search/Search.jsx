@@ -8,13 +8,15 @@ import useStyles from './styles'
 const Search = () => {
   const classes = useStyles();
   const [query, setQuery] = useState('');
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
+  const location = useLocation(); 
   const handleKeyPress = (event) => {
     if(event.key === 'Enter') {
         console.log('TESTING SEARCH', query);
         dispatch(searchMovie(query));
     }
   }
+  if(location.pathname !== '/') return null;
   return (
     <div className={classes.searchContainer}>
         <TextField 

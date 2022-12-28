@@ -8,9 +8,11 @@ import { useGetMovieQuery, useGetRecommendationsQuery } from '../../services/TMD
 import useStyles from './styles';
 import genreIcons from '../../assets/genres';
 import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
-import {MovieList} from '..';
+import {MovieList, Pagination} from '..';
 const MovieInfo = () => {
+  const Actors = 12;
   const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const {id} = useParams();
   const {data, isFetching, error} = useGetMovieQuery(id);
@@ -45,7 +47,7 @@ const MovieInfo = () => {
   // console.log('data', data);
   return (
     <Grid container className={classes.containerSpaceAround}>
-      <Grid item sm={12} lg={4}>
+      <Grid item sm={12} lg={4} style={{marginBottom: '30px', justifyContent: 'center'}}>
         <img className={classes.poster} src={`https://image.tmdb.org/t/p/w500/${data?.poster_path}`} alt={data?.title}/>
       </Grid>
       <Grid item container direction ="column" lg={7}>
@@ -56,7 +58,7 @@ const MovieInfo = () => {
             <Rating readOnly value={data.vote_average / 2}/>
             <Typography variant="subtitle1" gutterBottom style={{marginLeft: '10px'}}>{data?.vote_average} / 10</Typography>
           </Box>
-          <Typography variant="h6" align="center" gutterBottom>{data?.runtime}min {data?.spoken_languages.length > 0 ? `/ ${data?.spoken_languages[0].name}`: ''}</Typography>
+          <Typography variant="h6" align="center" gutterBottom>{data?.runtime}min | Language: {data?.spoken_languages[0].name}</Typography>
         </Grid>
         <Grid item className={classes.genresContainer}>
           {data?.genres?.map((genre, i) => (
