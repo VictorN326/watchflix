@@ -152,7 +152,7 @@ const MovieInfo = () => {
       <Modal closeAfterTransition className={classes.modal} open={open} onClose={()=> setOpen(false)}>
           <>
             {data?.videos?.results?.length > 0 && (
-              <iframe autoPlay className={classes.video} frameBorder="0" title="Trailer" src={`https://www.youtube.com/embed/${data.videos.results[0].key}`} allow="autoplay"/>
+              <iframe autoPlay className={classes.video} frameBorder="0" title="Trailer" src={`https://www.youtube.com/embed/${data.videos.results[data.videos.results.length - 1].key}`} allow="autoplay"/>
           )}
           </>
         </Modal>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
   AppBar,
   IconButton,
@@ -14,6 +14,7 @@ import {
   Brightness4,
   Brightness7,
 } from "@mui/icons-material";
+import { ColorModeContext } from "../../utilities/DarkAndLightMode";
 import { Link } from "react-router-dom";
 import useStyles from "./styles";
 import {useTheme} from "@mui/material/styles";
@@ -31,6 +32,7 @@ const NavigationBar = () => {
   const token = localStorage.getItem('request_token');
   const dispatch = useDispatch();
   const {isAuthenticated, user} = useSelector(userSelector);
+  const DarkLightMode = useContext(ColorModeContext);
   console.log(user);
   useEffect(()=> {
     const logInUser = async () => {
@@ -65,7 +67,8 @@ const NavigationBar = () => {
               <Menu />
             </IconButton>
           )}
-          <IconButton color = "inherit" sx = {{ml: 1}} onClick = {() => {}}>
+          {/* DARK AND LIGHT MODE BUTTON */}
+          <IconButton color = "inherit" sx = {{ml: 1}} onClick = {DarkLightMode.toggleDarkLightMode}>
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4/>}
           </IconButton>
           {!isMobile && <Search/>}

@@ -2,7 +2,6 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import { buildQueries } from '@testing-library/react';
 // const page = 1;
  const tmdbApiKey = process.env.REACT_APP_TMDB_KEY;
-// const tmdbApiKey = '4a1c5a07df1f8aaa6cab280c2b4e5796';
 // /movie/popular?api_key=<<api_key>>&language=en-US&page=1
 export const tmdbApi = createApi({
     reducerPath: 'tmdbApi',

@@ -4,17 +4,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import App from './components/App';
 import { createTheme, ThemeProvider} from '@mui/material/styles';
+import ToggleDarkAndLightMode from './utilities/DarkAndLightMode';
 import store from './app/store';
 import './index.css';
-const theme = createTheme({});
-//Pulling the code from github on a laptop for testing.
 ReactDOM.render(
 <Provider store = {store}>
-    <ThemeProvider theme = {theme}>
+    <ToggleDarkAndLightMode>
         <BrowserRouter>
         <App />
         </BrowserRouter>
-    </ThemeProvider>,
+    </ToggleDarkAndLightMode>,
 </Provider>,    
 document.getElementById('root'),
 );
