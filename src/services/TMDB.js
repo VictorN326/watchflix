@@ -1,8 +1,8 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import { buildQueries } from '@testing-library/react';
 // const page = 1;
-//  const tmdbApiKey = process.env.REACT_APP_TMDB_KEY;
-const tmdbApiKey = '4a1c5a07df1f8aaa6cab280c2b4e5796';
+ const tmdbApiKey = process.env.REACT_APP_TMDB_KEY;
+// const tmdbApiKey = '4a1c5a07df1f8aaa6cab280c2b4e5796';
 // /movie/popular?api_key=<<api_key>>&language=en-US&page=1
 export const tmdbApi = createApi({
     reducerPath: 'tmdbApi',
@@ -39,6 +39,10 @@ export const tmdbApi = createApi({
         getMovie: builder.query({
             query: (id) => `/movie/${id}?append_to_response=videos,credits&api_key=${tmdbApiKey}`,
         }),
+        //* Get List
+        getList: builder.query({
+            query: ({ listName, accountId, sessionId, page }) => `/account/${accountId}/${listName}?api_key=${tmdbApiKey}&session_id=${sessionId}&page=${page}`,
+        }),
         //* Get user-specific lists
         getRecommendations: builder.query({
             query: ({movie_id, list}) => `/movie/${movie_id}/${list}?api_key=${tmdbApiKey}`,
@@ -61,4 +65,5 @@ export const {
     useGetRecommendationsQuery,
     useGetActorsInfoQuery,
     useGetActorsMoviesQuery,
+    useGetListQuery,
 } = tmdbApi;

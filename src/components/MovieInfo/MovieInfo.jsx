@@ -1,31 +1,50 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Modal, Typography, Button, ButtonGroup, Grid, Box, CircularProgress, useMediaQuery, Rating} from '@mui/material';
 import {Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBorderOutlined, Remove, ArrowBack} from '@mui/icons-material';
 import {Link, useParams} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { useGetMovieQuery, useGetRecommendationsQuery } from '../../services/TMDB';
+import { useGetListQuery, useGetMovieQuery, useGetRecommendationsQuery } from '../../services/TMDB';
 import useStyles from './styles';
 import genreIcons from '../../assets/genres';
 import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
-import {MovieList, Pagination} from '..';
+import {MovieList} from '..';
+import { userSelector } from '../../features/authentication';
 const MovieInfo = () => {
-  const Actors = 12;
+  const {user} = useSelector(userSelector);
   const [open, setOpen] = useState(false);
-  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const {id} = useParams();
-  const {data, isFetching, error} = useGetMovieQuery(id);
+  const { data, isFetching, error} = useGetMovieQuery(id);
+  const { data: favoriteMovies} = useGetListQuery({listName: 'favorite/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'),page: 1});
+  const {data: watchlistMovies} = useGetListQuery({listName: 'watchlist/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'),page: 1});
   const classes = useStyles();
-  const isMovieFavorite = true;
-  const isMovieWatchlisted = false;
+  const [isMovieFavorited, setIsMovieFavorited] = useState(false);
+  const [isMovieWatchlisted, setIsMovieWatchlisted] = useState(false);
   const {data: recommendations, isFetching: isRecommendationsFetching} = useGetRecommendationsQuery({list: '/recommendations', movie_id: id});
-  const addToFavorites = () => {
+  useEffect(()=> {
+    setIsMovieFavorited(!!favoriteMovies?.results?.find((movie)=> movie?.id === data?.id));
+  },[favoriteMovies, data]);
 
+  useEffect(()=> {
+    setIsMovieWatchlisted(!!watchlistMovies?.results?.find((movie)=> movie?.id === data?.id));
+  },[watchlistMovies, data]);
+  const addToFavorites = async () => {
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`,{
+      media_type: 'movie',
+      media_id: id,
+      favorite: !isMovieFavorited,
+    });
+    setIsMovieFavorited((prev)=>!prev);
   };
 
-  const addToWatchlist = () => {
-
+  const addToWatchlist = async () => {
+   await axios.post(`https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`,{
+      media_type: 'movie',
+      media_id: id,
+      watchlist: !isMovieWatchlisted,
+    });
+    setIsMovieWatchlisted((prev)=>!prev);
   };
 
   // console.log('recommendations', recommendations);
@@ -98,8 +117,8 @@ const MovieInfo = () => {
             <Grid item xs={12} sm={6} className={classes.buttonsContainer}>
               {/* Button div that holds different buttons that are links to movies information and website */}
               <ButtonGroup size='medium' variant='outlined'>
-                <Button onClick={addToFavorites} endIcon={isMovieFavorite ? <FavoriteBorderOutlined/>: <Favorite/>}>
-                  {isMovieFavorite ? 'Unfavorite': 'Favorite'}
+                <Button onClick={addToFavorites} endIcon={isMovieFavorited ? <FavoriteBorderOutlined/>: <Favorite/>}>
+                  {isMovieFavorited ? 'Unfavorite': 'Favorite'}
                 </Button>
                 <Button onClick={addToWatchlist} endIcon={isMovieWatchlisted ? <Remove/>: <PlusOne/>}>
                   {/*UNNECESSARY FOR LONG BUTTON: {isMovieWatchlisted ? 'Remove from Watchlist': 'Add to Watchlist'} */}
