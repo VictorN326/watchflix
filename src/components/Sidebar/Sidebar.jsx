@@ -13,6 +13,9 @@ const categories = [
   {label: 'Upcoming', value: 'upcoming'},
 ];
 
+
+
+
 // const demoCategories = [
 //   {label: 'Comedy', value: 'comedy'},
 //   {label: 'Action', value: 'action'},
@@ -28,9 +31,12 @@ const Sidebar = ({setMobileOpen}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const {data, isFetching} = useGetGenresQuery();
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [genreIdOrCategoryName]);
 
   // console.log('Genre',data);
-  console.log(genreIdOrCategoryName);
+  // console.log(genreIdOrCategoryName);
   return (
     <>
         <Link to="/" className={classes.imageLink}>
