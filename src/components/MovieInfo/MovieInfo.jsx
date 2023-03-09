@@ -57,7 +57,7 @@ const MovieInfo = () => {
     (element) => element.type.toLowerCase() === "trailer"
   );
   // const movieTrailerUrltertiary = data?.videos?.results[0];
-
+    // console.log(data?.videos?.results);
   const movieTrailerUrl = movieTrailerUrlPrimary
     ? movieTrailerUrlPrimary
     : movieTrailerUrlsecondary;
@@ -167,6 +167,7 @@ const MovieInfo = () => {
       <Modal closeAfterTransition className={classes.modal} open={open} onClose={()=> setOpen(false)}>
           <>
             {data?.videos?.results?.length > 0 && (
+              //play only videos that are truly trailers
               <iframe autoPlay className={classes.video} style={{ border: "0px" }} title="Trailer" src={`https://www.youtube.com/embed/${
               movieTrailerUrl ? movieTrailerUrl.key : data?.videos?.results[0].key }?autoplay=1`} allow="autoplay"/>)}
           </>
