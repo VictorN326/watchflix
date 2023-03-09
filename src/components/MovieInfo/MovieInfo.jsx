@@ -47,6 +47,21 @@ const MovieInfo = () => {
     setIsMovieWatchlisted((prev)=>!prev);
   };
 
+   // grabs the "true" movie trailer and not sneak peeks. 
+   const movieTrailerUrlPrimary = data?.videos?.results.find(
+    (element) =>
+      element.name.toLowerCase().includes("trailer") &&
+      element.type.toLowerCase() === "trailer"
+  );
+  const movieTrailerUrlsecondary = data?.videos?.results.find(
+    (element) => element.type.toLowerCase() === "trailer"
+  );
+  // const movieTrailerUrltertiary = data?.videos?.results[0];
+
+  const movieTrailerUrl = movieTrailerUrlPrimary
+    ? movieTrailerUrlPrimary
+    : movieTrailerUrlsecondary;
+
   // console.log('recommendations', recommendations);
   if (isFetching) {
     return (
@@ -111,7 +126,7 @@ const MovieInfo = () => {
               <ButtonGroup size='small' variant='outlined'>
                 <Button target="_blank" rel="noopener noreferrer" href={data?.homepage} endIcon={<Language/>}>Website</Button>
                 <Button target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/title/${data?.imdb_id}`} endIcon={<MovieIcon/>}>IMDB</Button>
-                <Button onClick={()=> setOpen(true)} href="#" endIcon={<Theaters/>}>Special Look</Button>
+                <Button onClick={()=> setOpen(true)} href="#" endIcon={<Theaters/>}>Trailer</Button>
               </ButtonGroup>
             </Grid>
             <Grid item xs={12} sm={6} className={classes.buttonsContainer}>
@@ -142,8 +157,8 @@ const MovieInfo = () => {
         <Box>Sorry, we couldn't find anything to recommend at the moment... </Box>
         }
       </Box>
-      {console.log('data', data)}
-      {console.log('trailer info', data?.videos?.results)}
+      {/* {console.log('data', data)}
+      {console.log('trailer info', data?.videos?.results)} */}
       {/* {console.log('data.videos info', data?.videos)}
       {console.log('key', data.videos.results[0].key)} */}
       
@@ -152,8 +167,8 @@ const MovieInfo = () => {
       <Modal closeAfterTransition className={classes.modal} open={open} onClose={()=> setOpen(false)}>
           <>
             {data?.videos?.results?.length > 0 && (
-              <iframe autoPlay className={classes.video} frameBorder="0" title="Trailer" src={`https://www.youtube.com/embed/${data.videos.results[data.videos.results.length - 1].key}`} allow="autoplay"/>
-          )}
+              <iframe autoPlay className={classes.video} style={{ border: "0px" }} title="Trailer" src={`https://www.youtube.com/embed/${
+              movieTrailerUrl ? movieTrailerUrl.key : data?.videos?.results[0].key }?autoplay=1`} allow="autoplay"/>)}
           </>
         </Modal>
       </>
